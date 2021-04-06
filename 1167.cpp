@@ -3,18 +3,24 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-
-int dfs(vector<vector<pair<int,int>>> &v, vector<bool> &visited, int node){
+int maxNode;
+int maxDist;
+void dfs(vector<vector<pair<int,int>>> &v, vector<bool> &visited, int node, int dist){
     visited[node] = true;
+    if(dist > maxDist){
+        maxNode = node;
+        maxDist = dist;
+    }
+    // cout << "Node: " << node << endl;
+    // cout << "dist: " << dist << endl;
     for(auto there: v[node]){
         if(visited[there.second]){
             continue;
         }
         else{
-            return there.first + dfs(v, visited, there.second);
+            dfs(v, visited, there.second, dist + there.first);        
         }
     }
-    return 0;
 }
 
 int main(void){
@@ -33,20 +39,18 @@ int main(void){
             cin >> input_int2;
             v[vertex].push_back(make_pair(input_int2, input_int1));//거리, 정점으로 저장.
         }
-        sort(v[vertex].begin(), v[vertex].end(), greater<>());
     }
 
-    int max = 0;
+    maxNode = -1;
+    maxDist = 0;
     vector<bool> visited(n+1, false);
-    for(int i=1; i<=n; i++){
-        int tmp = dfs(v, visited, i);
-        if(tmp > max){
-            max = tmp;
-        }
-        for(int j=1; j<=n; j++){
-            visited[j] = false;
-        }
-    }
-    cout << max;
+    dfs(v, visited, 1, 0);
+    
+    fill(visited.begin(), visited.end(), false);
+
+    maxDist = 0;
+    dfs(v, visited, maxNode, 0);
+
+    cout << maxDist;
     return 0;
 }
