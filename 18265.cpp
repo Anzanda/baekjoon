@@ -1,47 +1,23 @@
-#include <iostream>
+#include<bits/stdc++.h>
 using namespace std;
-//1 <= N <= 10^9
-
+#define ll long long int
 int main(void){
-    int n;
+    ll n;
     cin >> n;
-    int idx3=1, idx5=1;
-    int cnt=0;
-    int nCnt=0;
-    int tmp=0;
-    while(nCnt<n){
-        if(idx3*3 < idx5*5){
-            cnt+=1;
-            tmp=idx3*3;
-            nCnt = (idx3++)*3 - cnt;
-        }
-        else if(idx3*3 > idx5*5){
-            cnt+=1;
-            tmp=idx5*5;
-            nCnt = (idx5++)*5 - cnt;
+    ll start =0;
+    ll end = INT32_MAX;
+    ll ans =0;
+    while(start<=end){
+        ll mid = (start+end) >> 1;
+        ans = mid - (mid/3) - (mid/5) + (mid/15);
+       // printf("ans: %d\n", ans);
+        if(ans < n){
+            start = mid+1;
         }
         else{
-            cnt+=1;
-            tmp=idx5*5;
-            nCnt = idx5*5 - cnt;
-            idx5++, idx3++;
+            end = mid-1;
         }
     }
-    // printf("cnt: %d\n", cnt);
-    // printf("nCnt: %d\n", nCnt);
-    // printf("tmp: %d\n", tmp);
-    while(true){
-        if(tmp%3==0 || tmp%5==0){
-            tmp--;
-        }
-        else{//3의 배수도 아니고 5의배수도 아님.
-            if(nCnt == n){
-                printf("%d\n", tmp);
-                break;
-            }
-            nCnt--;
-            tmp--;
-        }
-    }
+    cout << start;
     return 0;
 }
