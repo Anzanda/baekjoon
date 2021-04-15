@@ -1,31 +1,30 @@
-#include <stdio.h>
-#include <stdlib.h>
-int solution(int brickCount, int* idx){
-	int answer;
-    answer = 1;
-    int* dp = (int*)malloc(sizeof(int)*(brickCount+1));
-	dp[1] = 1;
-    for(int i=1; i<=brickCount-1; i++){
-		dp[i+1] = 1;
-        if(idx[i] < idx[i+1]){
-            dp[i+1] = dp[i]+1;
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(void){
+	int sdcp[8] = {800, 950, 650, 750, 300, 400, 20, 50};
+	int dne[2] = {980,20};
+	int cw[2] = {705, 295};
+	int p[2] = {190, 810};
+
+	unsigned long long int total=0;
+	int sdcpIdx=0;
+    char a,b,c;
+    for(int i=0; i<2; i++){
+        for(int j=0; j<2; j++){
+            for(int k=0; k<2; k++){
+                if(i)   a='F';
+                else    a='T';
+                if(j)   b='F';
+                else    b='T';
+                if(k)   c='F';
+                else    c='T';
+                printf("when %c %c %c| ", a,b,c);
+                printf("%lf * %lf * %lf * %lf |val: %d\n", sdcp[sdcpIdx]/1000.0, dne[i]/1000.0, cw[j]/1000.0, p[k]/1000.0, sdcp[sdcpIdx]*dne[i]*cw[j]*p[k]);
+                total += sdcp[sdcpIdx++]*dne[i]*cw[j]*p[k];
+            }
         }
-        answer = answer > dp[i+1] ? answer : dp[i+1];
     }
-	
-	return (brickCount - answer);
-}
-
-int main() {
-	int brickCount;
-	scanf("%d", &brickCount);
-	int* brickNumber = (int*)malloc(sizeof(int)*(brickCount+1));
-	for(int i=0; i<brickCount; i++){
-		int number;
-		scanf("%d", &number);
-		brickNumber[number] = i;
-	}
-
-	printf("%d", solution(brickCount, brickNumber));
+	printf("total: %d", total);
 	return 0;
 }
