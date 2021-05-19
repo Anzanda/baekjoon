@@ -79,34 +79,18 @@ int main(void){
     sort(tired.begin(), tired.end());
     tired.erase(unique(tired.begin(), tired.end()), tired.end());
     
-    low=0, high=tired.size()-1;    
-    int l=0;
-    int r=tired.size()-1;
     int min = INT_MAX;
-    while(l<=r){
-        int mid = (l+r)/2;
-        high = mid;
-        if(checkIsValid()){
-            int right = mid;
-            while(right>=0){
-                low = right;
-                if(checkIsValid()){
-                    break;
-                }
-                else{
-                    right--;
-                }
+    low = 0; high = 0;
+    while(high < tired.size()){
+        while(low < tired.size()){
+            if(!checkIsValid()){
+                break;
             }
-            //printf("high: %d || low: %d\n", tired[high], tired[low]);
             min = min > (tired[high]-tired[low]) ? (tired[high]-tired[low]) : min;
-            low = 0;
-            r = mid-1;
+            low++;
         }
-        else{
-            l = mid+1;
-        }
+        high++;
     }
-    //printf("high: %d || low: %d\n", tired[high], tired[low]);
     cout << min;
     return 0;
 }
