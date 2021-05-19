@@ -54,7 +54,7 @@ bool checkIsValid(){
     }
     return true;
 }
-int main(void){
+int main(void){ios_base::sync_with_stdio(false);cin.tie(nullptr);
     cin >> n;
     for(int i=0; i<n; i++){
         char c[MAXN]; cin >> c;
