@@ -16,7 +16,7 @@ void foo(int* arr, int x, int cnt){
     }
     for(int i=x+1; i<=n; i++){
         int* v = (int*)malloc(sizeof(int)*m);
-        memcpy(v, arr, sizeof(int)*m);
+        memcpy(v, arr, sizeof(int)*m);  
         foo(v, i, cnt+1);
     }
     free(arr);
