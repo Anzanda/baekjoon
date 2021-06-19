@@ -10,17 +10,31 @@ int main(void){
     for(int i=0; i<n; i++){
         cin >> v[i];
     }
-
-    sort(v.begin(), v.end());
     
     int lidx = 0;
-    int ridx = v.size()-1;
-
+    int ridx = 0;
+    int sum =v[0];
     int ans = INT_MAX;
-    int sum = 0;
-    while(lidx>ridx){
-        
+    while(lidx<=ridx && ridx<n){
+        if(sum > s){
+            ans = ans > (ridx-lidx+1) ? (ridx-lidx+1) : ans;
+            sum -= v[lidx];
+            lidx++;            
+        }
+        else if(sum < s){
+            sum += v[++ridx];
+        }
+        else{
+            ans = ans > (ridx-lidx+1) ? (ridx-lidx+1) : ans;
+            sum += v[++ridx];
+        }
     }
-
+    if(ans == INT_MAX){
+        cout << 0 << "\n";
+    }
+    else{
+        cout << ans << "\n";
+    }
+    return 0;
     
 }
