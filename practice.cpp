@@ -1,38 +1,122 @@
-#include <bits/stdc++.h>
-#define MAXN (int)1e+6
-using namespace std;
+#include <stdio.h>
+#include <stdlib.h>
 
-int arr[MAXN];
-vector<int> seg;
-int init(int node, int start, int end){
-    if (start == end){
-        return seg[node] = arr[start];
+struct listNode{
+    char data;
+    struct listNode *nextPtr;
+};
+
+typedef struct listNode ListNode;
+typedef ListNode* ListNodePtr;
+
+void insert(ListNodePtr *sPtr, char value);
+char delete(ListNodePtr *sPtr, char value);
+int isEmpty(ListNodePtr currentPtr);
+void printList(ListNodePtr currnetPtr);
+void instructions(void);
+
+void insert(ListNodePtr *sPtr, char value){
+    ListNodePtr headNode = (*sPtr);
+    ListNodePtr curNode = headNode->nextPtr;
+    while(curNode != NULL){
+        if(curNode->data > value){
+             break;
+        }
+        curNode = curNode->nextPtr;
     }
     
-    int mid = (start+end) >> 1;
-    seg[node] = max(init(node*2, start, mid),init(node*2+1, mid+1, end));
-    
-    return seg[node];    
-}void update(int node, int start, int end, int changed_index, int diff){
-    if(changed_index < start || changed_index > end){
-        return;
+    ListNodePtr targetNode = curNode;
+    curNode = headNode;
+    while(curNode->nextPtr != targetNode){
+        curNode = curNode->nextPtr;
     }
-    seg[node] += diff;
-    if(start != end){
-        int mid = (start + end) >> 1;
-        update(node*2, start, mid, changed_index, diff);
-        update(node*2+1, mid+1, end, changed_index, diff);
+
+    ListNodePtr newNode = (ListNodePtr)malloc(sizeof(ListNode));
+    newNode->nextPtr = curNode->nextPtr;
+    curNode->nextPtr = newNode;
+}
+
+int main(){
+    ListNodePtr startPtr = (ListNodePtr)malloc(sizeof(ListNode));
+    startPtr->nextPtr = NULL;
+
+    int choice;
+    char item;
+
+    instructions();
+    printf("? ");
+    scanf("%d", &choice);
+
+    while(choice != 3){
+        switch (choice){
+        case 1:
+            while(!getchar());
+            printf("Enter a character: ");
+            item = getchar();
+            insert(&startPtr, item);
+            printList(startPtr);
+            break;
+        
+        case 2:
+            while(!getchar());
+            if(!isEmpty(startPtr)){
+                printf("Enter character to be deleted: ");
+                item = getchar();
+
+                if(delete(&startPtr, item)){
+                    printf("%c deleted. \n\n", item);
+                    printList(startPtr);
+                }
+                else{
+                    printf("%c not found. \n\n", item);
+                }
+            }
+            else{
+                printf("List is empty. \n\n");
+            }
+            break;
+
+        default:
+            printf("Invalid choice. \n\n");
+            instructions;
+            break;
+        }
+        printf("? ");
+        scanf("%d", &choice);
+    }
+    printf("End of run. \n");
+    return 0;
+}
+
+int isEmpty(ListNodePtr sPtr){
+    return sPtr == NULL;
+}
+
+void printList(ListNodePtr currentPtr){
+    if(currentPtr == NULL){
+        printf("List is empty. \n\n");
+    }
+    else{
+        printf("The list is : \n");
+        while(currentPtr != NULL){
+            printf(" %c --> ", currentPtr->data);
+            currentPtr = currentPtr->nextPtr;
+        }
+        printf("NULL \n\n");
     }
 }
-int main(void){iostream::sync_with_stdio(false);cin.tie(nullptr);
-    int n;
-    cin >> n;
-    for(int i=0; i<n; i++){
-        cin >> arr[i];
-    }
-    int h = (int)ceil(log2(n));
-    int tree_size = (1<<(h+1));
-    seg.resize(tree_size);
 
+void instructions(){
+    printf("Enter your choice : \n");
+    printf("\t 1 to insert an element into the list. \n");
+    printf("\t 2 to delete an element from the list. \n");
+    printf("\t 3 to end. \n");
+}
+
+void insert(ListNodePtr *sPtr, char value){
+    
+}
+
+char delete(ListNodePtr *sPtr, char value){
 
 }

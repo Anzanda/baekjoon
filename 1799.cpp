@@ -3,86 +3,46 @@
 using namespace std;
 
 int n;
-int field[MAXN][MAXN];
-int tmpField[MAXN][MAXN];
-vector<pair<int,int>> bishop;
-vector<pair<int,int>> done;
-
-void bishopWorking(int x, int y){
-    tmpField[x][y] = 0;
-
-    int tmpX = x;
-    int tmpY = y;
-    while(tmpX>=0&&tmpX<=n-1&&tmpY>=0&&tmpY<=n-1){
-        if(tmpField[tmpX][tmpY]){
-            tmpField[tmpX][tmpY]=0;
-        }
-        tmpX+=1;
-        tmpY+=1;
+int ans, tmp;
+int board[MAXN][MAXN];
+bool ud[MAXN*2];//↘: x-y
+bool du[MAXN*2];//↗: x+y
+void dfs(int x, int y, int cnt){
+    if(y >= n){
+        if(y%2) y=0;
+        else    y=1;
+        x++;
     }
-    
-    tmpX = x;
-    tmpY = y;
-    while(tmpX>=0&&tmpX<=n-1&&tmpY>=0&&tmpY<=n-1){
-        if(tmpField[tmpX][tmpY]){
-            tmpField[tmpX][tmpY]=0;
+    if(x >= n){
+        if(cnt > tmp){
+            tmp = cnt;
         }
-        tmpX+=-1;
-        tmpY+=1;
+        return;
     }
 
-    tmpX = x;
-    tmpY = y;
-    while(tmpX>=0&&tmpX<=n-1&&tmpY>=0&&tmpY<=n-1){
-        if(tmpField[tmpX][tmpY]){
-            tmpField[tmpX][tmpY]=0;
-        }
-        tmpX+=1;
-        tmpY+=-1;
+    if(board[x][y]&&!ud[x-y+n]&&!du[x+y+1]){
+       //printf("(%d, %d)\n", x, y);
+       ud[x-y+n]=1;
+       du[x+y+1]=1;
+       dfs(x, y+2, cnt+1); 
+       ud[x-y+n]=0;
+       du[x+y+1]=0;
     }
-
-    tmpX = x;
-    tmpY = y;
-    while(tmpX>=0&&tmpX<=n-1&&tmpY>=0&&tmpY<=n-1){
-        if(tmpField[tmpX][tmpY]){
-            tmpField[tmpX][tmpY]=0;
-        }
-        tmpX+=-1;
-        tmpY+=-1;
-    }
+    dfs(x, y+2, cnt);
 }
 int main(void){
     cin >> n;
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++){
-            cin >> field[i][j];
-            if(field[i][j]){
-                bishop.push_back({i,j});
-            }
+            cin >> board[i][j];
         }
     }
-    
-    int ans = 0;
-    int idx = 0;
-    while(idx != bishop.size()){
-        memcpy(tmpField, field, sizeof field);
-        bishopWorking(bishop[idx].first, bishop[idx].second);
+    dfs(0, 0, 0);
+    ans += tmp;
+    tmp = 0;
+    dfs(0, 1, 0);
+    ans += tmp;
 
-        int count = 1;
-        for(int i=0; i<n; i++){
-            for(int j=0; j<n; j++){
-                if(tmpField[i][j]){
-                    bishopWorking(i,j);
-                    count++;
-                }
-            }
-        }
-        
-        
-        ans = ans > count ? ans : count;
-        idx++;
-    }
-    
     cout << ans << "\n";
     return 0;
 }
