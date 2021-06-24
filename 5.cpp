@@ -2,6 +2,7 @@
 #define MAXN 1000000
 using namespace std;
 
+int helloWorld;
 int l, r;
 bool prime[MAXN+1];//false면 prime이라는 뜻.
 int gcd(int a, int b){
