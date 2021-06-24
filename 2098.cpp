@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #define MAXN 16
 #define INF 987654321
+#define endl "\n"
 using namespace std;
 
 int n, all;
@@ -37,7 +38,7 @@ int main(void){
         }
     }
     dfs(0, 1);
-    cout << dp[0][1] << "\n";
+    cout << dp[0][1] << endl;
     
     return 0;
 }
