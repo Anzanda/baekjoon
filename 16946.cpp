@@ -2,14 +2,14 @@
 using namespace std;
 
 #define endl "\n"
-#define MAX 1024
-#define FastIO ios::sync_with_stdio(false),cin.tie(0),cout.tie(0)
+#define MAX 1000
+#define FastIO ios_base::sync_with_stdio(false),cin.tie(0),cout.tie(0)
 
 int n, m;
 char board[MAX][MAX];
-int path[MAX][MAX];
+bool path[MAX][MAX];
 bool vst[MAX][MAX];
-vector<int> group;
+int ans[MAX][MAX];
 int dr[4] = {-1, 0, 1, 0};
 int dc[4] = {0, 1, 0, -1};
 bool isRange(int r, int c) {
@@ -18,29 +18,44 @@ bool isRange(int r, int c) {
     }
     return true;
 }
-int dfs(int r, int c, int p) {
+int dfs(int r, int c) {
     if(!isRange(r, c)) {
         return 0;
     }
-    if(vst[r][c])   return 0;
+    if(path[r][c])    return 0;
     if(board[r][c] != '0') {
         return 0;
     }
-    path[r][c] = p;
-    vst[r][c] = true;
+    path[r][c] = true;
     int ret = 1;
+    for(int i=0; i< 4; i++) {
+        int nr = r + dr[i];
+        int nc = c + dc[i];
+        ret += dfs(nr, nc);
+    }
+
+    return ret;
+}
+void update(int r, int c, int cnt) {
+    if(!isRange(r, c))  return;
+    if(vst[r][c])   return;
+    vst[r][c] = true;
+    if(board[r][c] != '0') {
+        ans[r][c] += cnt;
+        return;
+    }
     for(int i=0; i<4; i++) {
         int nr = r + dr[i];
         int nc = c + dc[i];
-        ret += dfs(nr, nc, p);
+        update(nr, nc, cnt);
     }
-    return ret;
 }
 void solve(int r, int c) {
-    if(path[r][c] != -1) {
-        return;
-    }
-    group.push_back(dfs(r, c, group.size()));
+    if(path[r][c])  return;
+    memset(vst, false, sizeof vst);
+    int cnt = dfs(r,c);
+    // cout << "(" << r << "," << c << ")" << ": " << cnt << endl;
+    update(r, c, cnt);
 }
 int main(void) {
     FastIO;
@@ -50,36 +65,19 @@ int main(void) {
             cin >> board[i][j];
         }
     }
-    memset(path, -1, sizeof path);
     for(int i=0; i<n; i++) {
         for(int j=0; j<m; j++) {
             if(board[i][j] == '0') {
                 solve(i, j);
+            } else {
+                ans[i][j] += 1;
             }
         }
     }
     for(int i=0; i<n; i++) {
         for(int j=0; j<m; j++) {
-            if(board[i][j] == '0') {
-                cout << 0;
-            } else {
-                int ans = 1;
-                set<int> s;
-                for(int k=0; k<4; k++) {
-                    int nr = i + dr[k];
-                    int nc = j + dc[k];
-                    if(!isRange(nr, nc))    continue;
-                    if(path[nr][nc] != -1) {
-                        s.insert(path[nr][nc]);
-                    }
-                }
-                for(auto it=s.begin(); it!=s.end(); it++) {
-                    ans += group[*it];
-                }
-                cout << (ans)%10;
-            }
+            cout << ans[i][j];
         }
         cout << endl;
     }
-    return 0;
 }
