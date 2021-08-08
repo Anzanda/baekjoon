@@ -10,17 +10,20 @@ int main(void) {
 	FastIO;
 	cin >> n;
 	int num;
-	int modOne, modTwo;
-	modOne = modTwo = 0;
+	int modTwo = 0;
+	int sum = 0;
 	for(int i=0; i<n; i++) {
 		cin >> num;
-		if(num%3 == 1) {
-			modOne++;
-		} else if(num%3 == 2) {
-			modTwo++;
+		sum += num;
+		modTwo += num/2;
+	}
+	bool ans = false;
+	if(sum%3 == 0) {
+		int three = sum/3;
+		if(three <= modTwo) {
+			ans = true;
 		}
 	}
-	bool ans = modOne%3 == modTwo%3;
 	if(ans) {
 		cout << "YES" << endl;
 	} else {
