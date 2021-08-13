@@ -1,26 +1,25 @@
 #include <stdio.h>
 #include <string.h>
 
-int n,k;
-int arr[105];
-int dp[105][10005];
-int solve(int now, int k) {
-	if(k == 0)	return 1;
-	if(now > n-1)	return 0;
-	int* ret = &dp[now][k];
-	if(*ret != -1)	return *ret;
-	*ret = 0;	
-	for(int i=0; k-(arr[now]*i)>=0; i++) {
-		*ret += solve(now+1, k-(arr[now]*i));
-	}
-	return *ret;
-}
+#define MAX 100007
+
+int n, k;
+int arr[MAX];
+int dp[MAX];
 int main(void) {
 	scanf("%d %d", &n, &k);
-	for(int i=0; i<n; i++) {
+	for(int i=1; i<=n; i++) {
 		scanf("%d", &arr[i]);
 	}
-	memset(dp, -1, sizeof dp);
-	printf("%d", solve(0, k));
+	dp[0] = 1;
+	for(int i=1; i<=n; i++) {
+		for(int j=1; j<=k; j++) {
+			if(arr[i] > j) {
+				continue;
+			}
+			dp[j] += dp[j-arr[i]];
+		}
+	}
+	printf("%d\n", dp[k]);
 	return 0;
 }
