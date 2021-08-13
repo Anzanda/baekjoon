@@ -5,6 +5,7 @@ using namespace std;
 #define endl "\n"
 #define MAX 100007
 
+
 int n;
 int main(void) {
 	FastIO;
@@ -17,17 +18,11 @@ int main(void) {
 		sum += num;
 		modTwo += num/2;
 	}
-	bool ans = false;
-	if(sum%3 == 0) {
-		int three = sum/3;
-		if(three <= modTwo) {
-			ans = true;
-		}
-	}
-	if(ans) {
 		cout << "YES" << endl;
 	} else {
 		cout << "NO" << endl;
+	}
+	if(sum%3 == 0) {
 	}
 	return 0;
 }
