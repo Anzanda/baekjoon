@@ -14,7 +14,6 @@ int cnt[10][10][10];
  */
 int ans[10];
 int main(void) {
-	FastIO;
 	cin >> n;
 	for(int i=0; i<10; i++) {
 		cnt[0][i][i] = 1;
@@ -34,10 +33,11 @@ int main(void) {
 	while(n) {
 		int tmp = n%10;
 		ans[tmp] += tmpCnt+1;
+		tmpCnt += (tmp*pow(10,i));
 		for(int j=tmp-1; j>=0; j--) {
 			for(int k=0; k<10; k++) {
 				ans[k] += cnt[i][j][k];
-				tmpCnt += cnt[i][j][k];
+				//tmpCnt += cnt[i][j][k];
 			}
 		}
 		if(n/10 == 0) {
