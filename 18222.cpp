@@ -7,15 +7,15 @@ using namespace std;
 using ll=long long;
 
 ll k;
-int finalBit[32];
+int finalBit[64];
 int main(void) {
 	cin >> k;
-	for(int i=0; i<32; i++) {
+	for(int i=0; i<64; i++) {
 		finalBit[i] = i%2;
 	}
 	int ans;
 	bool reverseFlag = false;
-	for(int i=31; i>=0; i--) {
+	for(int i=64; i>=0; i--) {
 		if(k&(1<<i)) {
 			if(reverseFlag) {
 				ans = finalBit[i]? 0:1;
