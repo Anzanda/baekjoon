@@ -8,24 +8,27 @@ using ll=long long;
 
 ll k;
 int finalBit[64];
+int solve(ll input) {
+	int ret;
+	bool reverseFlag = false;
+	for(ll i=63; i>=0; i--) {
+		if(input&(1LL<<i)) {
+			if(reverseFlag) {
+				ret = finalBit[i]? 0:1;
+				reverseFlag = false;
+			} else {
+				ret  = finalBit[i];
+				reverseFlag = true;
+			}
+		}
+	}
+	return ret;
+}
 int main(void) {
 	cin >> k;
 	for(int i=0; i<64; i++) {
 		finalBit[i] = i%2;
 	}
-	int ans;
-	bool reverseFlag = false;
-	for(int i=64; i>=0; i--) {
-		if(k&(1<<i)) {
-			if(reverseFlag) {
-				ans = finalBit[i]? 0:1;
-				reverseFlag = false;
-			} else {
-				ans = finalBit[i];
-				reverseFlag = true;
-			}
-		}
-	}
-	cout << ans << endl;
+	cout << solve(k) << endl;
 	return 0;
 }
