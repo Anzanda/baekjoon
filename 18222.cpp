@@ -24,11 +24,25 @@ int solve(ll input) {
 	}
 	return ret;
 }
+int dfs(ll lf, ll rg, ll x) {
+	if(lf == rg) return 0;
+	ll mid = (lf + rg) / 2;
+	if(mid >= x) {
+		return dfs(lf, mid, x);
+	} else {
+		return !dfs(mid+1, rg, x);
+	}
+}
+int solve2(ll input) {
+	ll len = 1;
+	while(len<input)	len*=2;
+	return dfs(1, len, input);
+}
 int main(void) {
 	cin >> k;
 	for(int i=0; i<64; i++) {
 		finalBit[i] = i%2;
 	}
-	cout << solve(k) << endl;
+	cout << solve2(k) << endl;
 	return 0;
 }
