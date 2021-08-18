@@ -21,8 +21,11 @@ void input() {
 	}
 }
 int solve() {
-	return min(DOMjudge["correct"], Kattis["correct"]) + min(DOMjudge["wronganswer"], Kattis["wronganswer"]) +
-		min(DOMjudge["timelimit"], Kattis["timelimit"]);
+	int ret=0;
+	for(auto it=DOMjudge.begin(); it!=DOMjudge.end(); it++) {
+		ret += min(DOMjudge[it->first], Kattis[it->first]);
+	}
+	return ret;
 }
 int main(void) {
 	FastIO;
