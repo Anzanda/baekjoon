@@ -43,10 +43,6 @@ int getPeriod(int* arr) {
 	memcpy(originCows, cows, sizeof cows);
 	int periodCount = 0;
 	while(true) {
-		for(int i=0; i<n; i++) {
-			cycle[i][periodCount] = cows[i]; // 그냥 한 번에 cycle배열까지 초기화 해줌.
-			//쓰레기 코드 죄송...
-		}
 		makeReverse(cows);
 		periodCount++;
 		if(isSame(originCows, cows)) {
@@ -57,8 +53,12 @@ int getPeriod(int* arr) {
 }
 void solve() {
 	int period = getPeriod(cows);
+	k %= period;
+	while(k--) {
+		makeReverse(cows);
+	}
 	for(int i=0; i<n; i++) {
-		cout << cycle[i][k%period]+1 << endl;
+		cout << cows[i]+1 << endl;
 	}
 }
 int main(void) {
