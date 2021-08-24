@@ -49,7 +49,7 @@ void start() {
 		p[i].p = p[i].x - p[0].x;
 		p[i].q = p[i].y - p[0].y;
 	}
-	sort(p, p+n);
+	sort(p+1, p+n);
 }
 void solve() {
 	stack<int> s;
