@@ -14,8 +14,8 @@ const int CLOCK_WISE = -1;
 struct Point {
 	int x, y;
 	int p, q;
-	Point(int x = 0, int y = 0, int p = 1, int q = 0) 
-		: x(x), y(y), p(p), q(q) {}
+	Point(int x = 0, int y = 0) 
+		: x(x), y(y), p(1), q(0) {}
 	bool operator <(const Point& a) {
 		if (1LL * q * a.p != 1LL * p * a.q)
 			return 1LL * q * a.p < 1LL * p * a.q;
@@ -26,10 +26,16 @@ struct Point {
 	}
 };
 
-ll ccw(const Point &A, const Point &B, const Point &C) {
-	ll lf = 1LL * (A.x * B.y + B.x * C.y + C.x * A.y);
-	ll rg = 1LL * (B.x * A.y + C.x * B.y + A.x * C.y);
-	return lf - rg;
+int ccw(const Point &A, const Point &B, const Point &C) {
+	ll lf = 1LL * (B.x - A.x)*(C.y - A.y);
+	ll rg = 1LL * (B.y - A.y)*(C.x - A.x);
+	if (lf - rg > 0) {
+		return COUNTER_CLOCK_WISE;
+	} else if(lf - rg < 0) {
+		return CLOCK_WISE;
+	} else {
+		return STRAIGHT;
+	}
 }
 int n;
 Point p[MAX];
@@ -59,11 +65,11 @@ void solve() {
 	while (next < n) {
 		while(s.size() >= 2) {
 			int first, second;
-			second = s.top();
-			s.pop();
 			first = s.top();
-			if(ccw(p[first], p[second], p[next]) > 0) {
-					s.push(second);
+			s.pop();
+			second = s.top();
+			if(ccw(p[second], p[first], p[next]) == COUNTER_CLOCK_WISE) {
+					s.push(first);
 					break;
 			}
 		}
