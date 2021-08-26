@@ -20,8 +20,8 @@ void initPrime() {
 	memset(prime, true, sizeof prime);
 	prime[0] = prime[1] = false;
 	for(int i=2; i<sqrt(MAX); i++) {
+		if(!prime[i])	continue;
 		for(int j=i*i; j<=MAX; j+=i) {
-			if(!prime[j]) continue;
 			prime[j] = false;
 		}
 	}
