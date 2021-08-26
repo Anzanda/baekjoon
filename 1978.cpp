@@ -8,7 +8,7 @@ const int MAX = 1024;
 
 int n;
 bool prime[MAX];
-int arr[100];
+int arr[128];
 int ans;
 void input() {
 	cin >> n;
@@ -19,9 +19,9 @@ void input() {
 void initPrime() {
 	memset(prime, true, sizeof prime);
 	prime[0] = prime[1] = false;
-	for(int i=2; i<sqrt(MAX); i++) {
+	for(int i=2; i<=sqrt(MAX); i++) {
 		if(!prime[i])	continue;
-		for(int j=i*i; j<=MAX; j+=i) {
+		for(int j=i*i; j<MAX; j+=i) {
 			prime[j] = false;
 		}
 	}
@@ -34,7 +34,7 @@ void solve() {
 	cout << ans << endl;
 }
 int main(void) {
-	FastIO;
+//	FastIO;
 	input();
 	solve();
 	return 0;
