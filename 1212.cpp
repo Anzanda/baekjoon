@@ -19,6 +19,10 @@ void printBinary(int n) {
 }
 void solve() {
 	int n = s[0]-'0';
+	if(n == 0 && s.length() == 1) {
+		cout << 0 << endl;
+		return;
+	}
 	bool flag = false;
 	for(int i=2; i>=0; i--) {
 		if(n&(1<<i)) {
