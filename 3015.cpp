@@ -4,7 +4,9 @@ using namespace std;
 #define FastIO cin.tie(0)->sync_with_stdio()
 #define endl "\n"
 
-const int MAX = 500000;
+using ll = long long;
+
+const int MAX = 5*1e5;
 
 int n;
 int arr[MAX+5];
@@ -15,7 +17,7 @@ void input() {
 	}
 }
 void solve() {
-	int ans = 0;
+	ll ans = 0;
 	stack<int> s;
 	for(int i=0; i<n; i++) {
 		if(s.empty()) {
@@ -23,7 +25,7 @@ void solve() {
 			continue;
 		}
 		if(s.top() < arr[i]) {
-			ans += s.size();
+			ans += (ll)s.size();
 			while(s.top() < arr[i]) {
 				s.pop();
 				if(s.empty()) {
@@ -32,7 +34,7 @@ void solve() {
 			}
 			s.push(arr[i]);
 		} else {
-			ans += s.size();
+			ans += (ll)s.size();
 			s.push(arr[i]);
 		}
 	}
