@@ -4,7 +4,7 @@ using namespace std;
 #define endl "\n"
 #define FastIO cin.tie(0)->sync_with_stdio(0)
 
-const int MAX = 1e6;
+const int MAX = 1e6+7;
 
 int n;
 int seg[4*MAX];
@@ -20,33 +20,18 @@ void addSegTree(int lf, int rg, int x, int node, int cnt) {
     } 
     int mid = (lf + rg) / 2;
     addSegTree(lf, mid, x, node*2, cnt);
-    addSegTree(mid+1, lf, x, node*2+1, cnt);
+    addSegTree(mid+1, rg, x, node*2+1, cnt);
 }
-int getSegTree(int lf, int rg, int node, int s, int e) {
-    if(lf >= s && e >= rg) {
-        return seg[node];
+int query(int node, int x, int lf, int rg) {
+    if(lf == rg) {
+        return lf;
+    } 
+    int mid = (lf + rg) / 2;
+    if(x <= seg[node*2]) {
+        return query(node*2, x, lf, mid);
+    } else {
+        return query(node*2+1, x-seg[node*2], mid+1, rg);
     }
-    if(lf > e || rg < s) {
-        return 0;
-    }
-    int mid = (lf + rg)/2;
-    int lv = getSegTree(lf, mid, node*2, s, e);
-    int rv = getSegTree(mid+1, rg, node*2+1, s, e);
-    return lv + rv;
-}
-int search(int x) {
-    int lf = 1;
-    int rg = 1000000;
-    while(lf < rg) {
-        int mid = (lf + rg) / 2;
-        int val = getSegTree(1, n, 1, 1, mid);
-        if(val < x) {
-            lf = mid+1;
-        } else {
-            rg = mid;
-        }
-    }
-    return rg;
 }
 void solve() {
     for(int i=0; i<n; i++) {
@@ -54,17 +39,17 @@ void solve() {
         cin >> state;
         if(state == 1) {
             cin >> a;
-            int res = search(a);
+            int res = query(1, a, 1, MAX);
             cout << res << endl;
-            addSegTree(1, n, res, 1, -1);
+            addSegTree(1, MAX, res, 1, -1);
         } else {
             cin >> a >> b;
-            addSegTree(1, n, a, 1, b);
+            addSegTree(1, MAX, a, 1, b);
         }
     }
 }
 int main(void) {
-    // FastIO;
+    FastIO;
     input();
     solve();
     return 0;

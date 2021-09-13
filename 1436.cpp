@@ -17,7 +17,7 @@ void solve() {
 			if(tmp%10 == 6) {
 				continuous++;
 			} else {
-				if(continuous == 3) {
+				if(continuous >= 3) {
 					break;	
 				}
 				continuous = 0;
