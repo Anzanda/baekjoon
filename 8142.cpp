@@ -45,7 +45,7 @@ int dfs(int r, int c) {
 					ret = dfs(nr, nc);
 				} else {
 					int val = dfs(nr, nc);
-					if(val != 0)	ret = val != ret? FAIL:ret;
+					if(val != NORMAL)	ret = val != ret? FAIL:ret;
 				}
 			} else {
 				int val = arr[nr][nc]-arr[r][c] > 0 ? VALLEY:RIDGE;
@@ -59,9 +59,24 @@ int dfs(int r, int c) {
 	}
 	return ret;
 }
+bool allTheSame() {
+	int val = arr[0][0];
+	for(int i=0; i<n; i++) {
+		for(int j=0; j<n; j++) {
+			if(arr[i][j] != val) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
 void solve() {
 	int valley = 0;
 	int ridge = 0;
+	if(allTheSame()) {
+		cout << 1 << " " << 1 << endl;
+		return;
+	}
 	for(int i=0; i<n; i++) {
 		for(int j=0; j<n; j++) {
 			if(!vst[i][j]) {
