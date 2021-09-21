@@ -10,7 +10,7 @@ const int MX = 1e6;
 
 int n, k;
 ll m;
-int a[MX];
+ll a[MX];
 int jmp[MX];
 void input() {
 	cin >> n >> k;
@@ -19,7 +19,7 @@ void input() {
 		cin >> a[i];
 	}
 }
-int getDist(int a, int b) {
+ll getDist(ll a, ll b) {
 	return abs(a-b);
 }
 void getJmp() {
