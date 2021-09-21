@@ -40,10 +40,11 @@ void getJmp() {
 int ans[MX];
 int tmp[MX];
 void solve() {
+	iota(ans, ans+n, 0);
 	while(m) {
 		if(m&1) {
 			for(int i=0; i<n; i++) {
-				ans[i] = jmp[i];
+				ans[i] = jmp[ans[i]];
 			}
 		}
 		for(int i=0; i<n; i++) {
